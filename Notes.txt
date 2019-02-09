@@ -1,0 +1,95 @@
+Install Node and Redis from node-redis-1 repository in github
+
+redis-cli set key1 hello
+redis-cli get key1
+
+
+###########################
+Data Persistence Option :
+###########################
+https://thisdavej.com/guides/redis-node/configuration.html
+
+Activate AOF persistence so we don't risk losing our last few minutes of data 
+in the event of an unplanned shutdown. This will result in bigger files being created, 
+but we're okay with that since every change will immediately get saved to the database
+redis-cli config set appendonly yes
+
+
+
+#############
+Security :
+#############
+Redis is configured very securely out of the box so only clients on the same server can access the Redis 
+database by default. This is the desired configuration in many circumstances since Redis is often used as 
+the key/value store infrastructure in support of other applications that are running on the same server.
+If you wish to make your Redis server available to other clients, you can change the security configuration to make it more open
+nano /etc/redis/redis.conf
+# Make 3 changes
+# comment the next line
+# bind 127.0.0.1
+
+# change protected-mode from yes to no
+protected-mode no
+
+# add password if needed
+requirepass mypass
+
+After making the changes restart the redis server
+redis-server restart
+
+
+#############################
+Connecting to the redis-cli
+#############################
+# Enter into the cli
+redis-cli
+set key1 hello
+get key1
+set key2 "test" EX 60 # expires in 60 seconds
+
+# Use Redis command Non Interactively
+redis-cli set key1 hello
+result=$(redis-cli get key1)
+echo $result
+
+
+
+############
+Counter
+############
+# Increment the number stored
+INCR key
+INCR visitorCount
+
+# Decrement the number stored
+DECR visitorCount
+
+
+###########
+LIST
+###########
+RPUSH key value1 value2
+
+# push apple in a list called "fruits"
+rpush fruits apple
+rpush fruits banana orange
+
+
+RPOP key
+
+# Remove and return the last element of the list
+# Remove the last value from "fruits" list
+rpop fruits
+
+
+LRANGE key start stop
+# Returns specified elements from the list in the key
+# Index starts with 0
+lrange fruits 0 1	# returns apple, banana
+
+# see all the elements using -1
+lsrange fruits 0 -1
+
+There are also LTRIM, LREM commands. Refer the below url
+https://thisdavej.com/guides/redis-node/commands/lists.html
+
