@@ -93,3 +93,56 @@ lsrange fruits 0 -1
 There are also LTRIM, LREM commands. Refer the below url
 https://thisdavej.com/guides/redis-node/commands/lists.html
 
+
+
+############
+HASHES
+############
+Redis Hashes are maps between string fields and string values. Therefore, they are the perfect data type to represent objects.
+
+HSET : Create a Hashtable and Set values for fields and values 
+-----------------------------------------------------------------
+Goal : Create an object equivalent to Javascript object
+cons shamu = {
+  type: 'blue whale',
+  age: 5,
+  lastFeedDate: '2019'
+}
+
+# Option 1 :
+hset shamu type "blue whale"
+hset shamu age 5
+hset shamu lastFeedDate "2019"
+
+# Option 2 :
+hset shamu type "blue whale" age 5 lastFeedDate "2019"
+
+
+HGET : Get a field from the key
+----------------------------------
+HGET key field
+
+hget shamu age
+
+
+HGETALL : Returns all the fields and its values
+-------------------------------------------------
+HGETALL key
+
+hgetall shamu
+
+
+
+#################
+REMOVE KEY
+#################
+DEL key
+
+del fruits
+
+
+
+#####################
+Check Time To Live
+#####################
+TTL key
